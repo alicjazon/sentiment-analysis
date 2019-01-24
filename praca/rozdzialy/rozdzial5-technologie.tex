@@ -1,0 +1,30 @@
+\chapter{Wykorzystane narzędzia i technologie}
+\label{cha:technologie}
+
+\section{Python 3.5}
+\label{sec:python}
+Python jest najpopularniejszym językiem programowania w uczeniu maszynowym \textendash \ według raportu firmy Vision Mobile\cite{visionmobile} używa go 57\% programistów i naukowców związanych z przetwarzaniem danych. Na kolejnych miejscach znajduje się C/C++ (używany przez 43\% programistów) oraz Java (41\%). 
+
+Powyższy raport przytacza również konkretne najpopularniejsze obszary zastosowań danych języków. Język Python jest najbardziej powszechny w eksploracji danych z sieci (\textit{ang. web mining}), przetwarzaniu języka naturalnego oraz w analizie wydźwięku tekstu (używany przez 44\% programistów). Dzieje się tak dlatego, że Python to język o przejrzystej składni, kładący nacisk na prostotę i czytelność\cite{python}. Zaletą są również liczne biblioteki, które można wykorzystać do uczenia maszynowego, między innymi PyTorch, TensorFlow, SciKit i Pandas.
+
+\section{TensorFlow}
+\label{sec:tensorflow}
+
+Tensorflow to biblioteka powszechnie wykorzystywana w głębokim uczeniu maszynowym. Dużą zaletą jest możliwość stworzenia całej sieci za pomocą zmiennych zastępczych (\textit{ang. placeholder}). Umożliwiają one oddzielenie fazy konfiguracji od fazy ewaluacji, co pozwala na łatwe skalowanie sieci. Biblioteka ta jest niskopoziomowa, ma więc dużo możliwości do dostosowywania sieci do konkretnych potrzeb. 
+Posiada również szczegółową dokumentację z przykładami immplementacji\cite{tensorflow}, a z racji dużej popularności, łatwo znaleźć wiele źródeł i tutoriali wykorzystujących TensorFlow.
+
+Przed przystąpieniem do implementacji brana była pod uwagę również biblioteka Keras. Zapewnia ona wysokopoziomowy interfejs programowania aplikacji, co sprawia, że stworzenie sieci LSTM jest proste i nie wymaga wiele kodu. Ograniczona możliwość dostosowania poszczególnych parametrów sieci sprawia jednak, że w opisywanym w tej pracy przypadku użycie biblioteki Keras się nie sprawdza. 
+
+\section{Scikit-learn}
+\label{sec:scikit}
+
+Jest to biblioteka przeznaczona do uczenia maszynowego. W pracy został wykorzystany jej moduł \textit{metrics}\cite{scikit}. Posiada on liczne funkcje do ewaluacji modelu oraz mierzenia jakości klasyfikacji. Na stronie biblioteki opisane są również przykłady zastosowania każdej z metryk oraz sposób interpretacji otrzymanych wyników.
+
+\section{Pozostałe narzędzia}
+\label{sec:pozostale}
+\begin{itemize}
+  \item \textbf{NumPy} \textendash \ biblioteka służąca do obliczeń numerycznych.
+  \item \textbf{Pyplot} \textendash \ moduł biblioteki Matplotlib służący do sporządzania wykresów.
+\end{itemize}
+
+

@@ -1,0 +1,206 @@
+\documentclass[11pt]{aghdpl}
+
+% Lista wszystkich języków stanowiących języki pozycji bibliograficznych użytych w pracy.
+% (Zgodnie z zasadami tworzenia bibliografii każda pozycja powinna zostać utworzona zgodnie z zasadami języka, w którym dana publikacja została napisana.)
+\usepackage[english,polish]{babel}
+
+% Użyj polskiego łamania wyrazów (zamiast domyślnego angielskiego).
+\usepackage{polski}
+
+% Greckie litery w tekscie (zamiast w formułach matematycznych)
+\usepackage{textgreek}
+
+%pseudokod
+\usepackage{algorithm2e} 
+\usepackage{algorithmic}
+
+% Kilka wyrażeń matematycznych na raz
+\usepackage{amsmath}
+
+\usepackage[utf8]{inputenc}
+
+% dodatkowe pakiety
+
+\usepackage{mathtools}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amsthm}
+
+% podświetlanie kodu
+\usepackage[utf8]{inputenc}
+\usepackage{minted}
+\setminted[]{
+    linenos=true,
+    breaklines
+}
+\usepackage{etoolbox}
+\AtBeginEnvironment{quote}{\singlespacing\small}
+% --- < ścieżki > ---
+\usepackage{graphicx}
+\graphicspath{{media/}}
+
+
+% --- < bibliografia > ---
+
+\usepackage[
+style=numeric,
+sorting=none,
+%
+% Zastosuj styl wpisu bibliograficznego właściwy językowi publikacji.
+language=autobib,
+autolang=other,
+% Zapisuj datę dostępu do strony WWW w formacie RRRR-MM-DD.
+% urldate=iso8601,
+% Nie dodawaj numerów stron, na których występuje cytowanie.
+backref=false,
+% Podawaj ISBN.
+isbn=true,
+% Nie podawaj URL-i, o ile nie jest to konieczne.
+url=false,
+%
+% Ustawienia związane z polskimi normami dla bibliografii.
+maxbibnames=3,
+% Jeżeli używamy BibTeXa:
+backend=bibtex
+]{biblatex}
+\addbibresource{bibliografia.bib}
+
+\usepackage[autostyle]{csquotes}
+% Ponieważ `csquotes` nie posiada polskiego stylu, można skorzystać z mocno zbliżonego stylu chorwackiego.
+\DeclareQuoteAlias{croatian}{polish}
+
+
+
+% Nie wyświetlaj wybranych pól.
+%\AtEveryBibitem{\clearfield{note}}
+
+% Użyj czcionki kroju Courier.
+\usepackage{courier}
+
+% ------------------------
+% --- < listingi > ---
+\usepackage{listings}
+\lstloadlanguages{TeX}
+
+% --- < kolorowy tekst > ---
+\usepackage[dvipsnames]{xcolor}
+
+% --- < Małe przerwy w dużych liczbach > ---
+\usepackage{siunitx}
+
+\usepackage{amsmath}
+
+% --- < Do wygenerowania listy równań > ---
+\usepackage[notlof]{tocbibind}
+\usepackage{tocloft}
+
+
+\lstset{
+	literate={ą}{{\k{a}}}1
+           {ć}{{\'c}}1
+           {ę}{{\k{e}}}1
+           {ó}{{\'o}}1
+           {ń}{{\'n}}1
+           {ł}{{\l{}}}1
+           {ś}{{\'s}}1
+           {ź}{{\'z}}1
+           {ż}{{\.z}}1
+           {Ą}{{\k{A}}}1
+           {Ć}{{\'C}}1
+           {Ę}{{\k{E}}}1
+           {Ó}{{\'O}}1
+           {Ń}{{\'N}}1
+           {Ł}{{\L{}}}1
+           {Ś}{{\'S}}1
+           {Ź}{{\'Z}}1
+           {Ż}{{\.Z}}1,
+	basicstyle=\footnotesize\ttfamily,
+}
+
+% ------------------------
+
+\AtBeginDocument{
+	\renewcommand{\tablename}{Tabela}
+	\renewcommand{\figurename}{Rys.}
+}
+
+% ------------------------
+% --- < tabele > ---
+
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{multirow}
+\usepackage{booktabs}
+\usepackage{makecell}
+\usepackage{graphicx}
+\usepackage[flushleft]{threeparttable}
+
+% defines the X column to use m (\parbox[c]) instead of p (`parbox[t]`)
+\newcolumntype{C}[1]{>{\hsize=#1\hsize\centering\arraybackslash}X}
+
+
+%---------------------------------------------------------------------------
+
+\author{Alicja Zoń}
+\shortauthor{A. Zoń}
+
+\titlePL{Oprogramowanie do analizy tekstów oparte o algorytmy uczenia maszynowego}
+
+\shorttitlePL{Oprogramowanie do analizy tekstów oparte o algorytmy uczenia maszynowego} % skrócona wersja tytułu jeśli jest bardzo długi
+
+\thesistype{Praca inżynierska}
+
+\supervisor{dr hab. inż. Tomasz Szumlak}
+
+\degreeprogramme{Informatyka Stosowana}
+
+\date{2019}
+
+\department{}
+
+\faculty{Wydział Fizyki i Informatyki Stosowanej}
+
+\acknowledgements{}
+
+
+\setlength{\cftsecnumwidth}{10mm}
+
+%---------------------------------------------------------------------------
+\setcounter{secnumdepth}{4}
+\brokenpenalty=10000\relax
+
+\begin{document}
+
+\titlepages
+
+% Ponowne zdefiniowanie stylu `plain`, aby usunąć numer strony z pierwszej strony spisu treści i poszczególnych rozdziałów.
+\fancypagestyle{plain}
+{
+	% Usuń nagłówek i stopkę
+	\fancyhf{}
+	% Usuń linie.
+	\renewcommand{\headrulewidth}{0pt}
+	\renewcommand{\footrulewidth}{0pt}
+}
+
+\addtocontents{toc}{\protect\setcounter{tocdepth}{-1}}
+\tableofcontents
+\addtocontents{toc}{\protect\setcounter{tocdepth}{2}}
+    \clearpage
+\addcontentsline{toc}{chapter}{Bibliography}
+
+\include{rozdzialy/rozdzial1-wstep}
+\include{rozdzialy/rozdzial2-opis}
+\include{rozdzialy/rozdzial3-dane}
+\include{rozdzialy/rozdzial4-model}
+\include{rozdzialy/rozdzial5-technologie}
+\include{rozdzialy/rozdzial6-implementacja}
+\include{rozdzialy/rozdzial7-metryki}
+\include{rozdzialy/rozdzial8-analiza}
+\include{rozdzialy/rozdzial9-dyskusja}
+\include{rozdzialy/rozdzial10-wnioski}
+
+
+\printbibliography[heading=bibintoc]
+
+\end{document}

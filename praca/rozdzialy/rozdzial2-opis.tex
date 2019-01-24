@@ -1,0 +1,24 @@
+\chapter{Opis problemu}
+\label{cha:opis}
+
+Badanie opinii i emocji w tekstach (\textit{ang. sentiment analysis}) jest zadaniem dość trudnym, gdyż nawet ludzie różnie odbierają wydźwięk tych samych zdań. Dlatego stworzenie precyzyjnego klasyfikatora wydźwięku tekstu to duże wyzwanie, zwłaszcza że w zdaniach istotne są nie tylko słowa, ale także ich kolejność i kontekst. 
+
+Wydźwięk tekstów może być analizowany w różnych skalach, w tej pracy przyjęte zostało podejście najbardziej podstawowe, czyli wykrywanie biegunowości (\textit{ang. polarity detection}), będące klasyfikacją zdań na trzy grupy opinii: pozytywne, negatywne oraz neutralne. 
+
+\section{Zastosowana metoda}
+\label{sec:technika}
+Istnieje wiele technik i algorytmów, których używa się do analizy wydźwięku tekstu. Można je podzielić na dwie główne grupy: techniki oparte na regułach (leksykonie) oraz podejścia automatyczne wykorzystujące uczenie maszynowe. 
+
+Podejście regułowe polega na klasyfikowaniu tekstów na podstawie przygotowanego wcześniej słownika, który zawiera listę słów i wyrażeń oraz przypisany do nich wydźwięk\cite{techniques}. Jeśli tekst posiada więcej słów pozytywnych niż negatywnych, to opinia jest klasyfikowana jako pozytywna, w przeciwnym wypadku jako negatywna. Podejście to posiada jednak kilka istotnych wad: po pierwsze stworzenie leksykonu wydźwięku jest czasochłonne i wymaga manualnego zdefiniowania reguł, a po drugie kontekst słów w zdaniu nie jest brany pod uwagę. Zatem jeśli w słowniku słowu \textit{podoba} jest przypisana etykieta pozytywna, to zdanie \textit{To mi się nie podoba} zostanie zaklasyfikowane jako pozytywne pomimo negacji.  
+
+Natomiast w podejściu opartym o algorytmy uczenia maszynowego budowany jest automatyczny klasyfikator, który, mając zestaw danych treningowych, uczy się kojarzyć zadany wejściowy tekst z przypisanym mu wyjściem wynikowym (etykietą)\cite{techniques}. Uczenie przebiera różną formę, w zależności od wybranego modelu i stopnia jego skomplikowania. 
+
+Do rozwiązania opisywanego problemu wybrana została technika uczenia maszynowego, gdyż wymaga dużo mniejszego nakładu pracy, daje możliwość osiągnięcia znacznie lepszych wyników, a końcowy system ma większą uniwersalność i skalowalność.
+
+\section{\textit{State of the art}}
+\label{sec:stateoftheart}
+Wraz z rozwojem głębokiego uczenia maszynowego (\textit{ang. deep learning}), coraz powszechniejsze stało się stosowanie go w analizie tekstów, czego dowodem są liczne publikacje w tej dziedzinie\cite{survey}. Powstawanie nowych modeli sieci neuronowych doprowadziło w ostatnich dziesięciu latach do dużego postępu w automatycznej analizie wydźwięku tekstu\cite{survey}, a równocześnie zwiększyła się popularność takich badań. 
+
+Tworzone są modele analizujące teksty pod kątem ich ogólnego wydźwięku, na poziomie zdań, a także w oparciu o konkretne aspekty, gdyż jedno zdanie może oceniać dwie różne kwestie (np. \textit{Fabuła była ciekawa, ale obsada mi się nie podobała}.). Najnowsze badania oprócz analizy tego, czy tekst jest pozytywny, czy negatywny, skupiają się również na rozpoznawaniu różnych emocji (np. gniew czy smutek), a także na wykrywaniu sarkazmu i ironii\cite{survey}. 
+
+Większość tych prac analizuje teksty w języku angielskim, natomiast w języku polskim nie przeprowadzono jak dotąd wielu badań na ten temat {\textendash} przykładowe publikacje warte uwagi to projekt OPTA\cite{opta} Zespołu Inżynierii Lingwistycznej Polskiej Akademii Nauk, a także prace zgłoszone do konkursu PolEval 2017\cite{poleval}, gdzie jednym z zadań było stworzenie modelu do analizy wydźwięku tekstu.  

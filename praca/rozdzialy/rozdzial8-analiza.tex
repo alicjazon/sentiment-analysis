@@ -1,0 +1,84 @@
+\chapter{Analiza przypadków}
+\label{cha:analiza}
+
+\section{Prawidłowe dopasowania}
+\label{cha:prawidlowe}
+
+W zbiorze testowym znajdują się zdania o różnym stopniu skomplikowania. Na początek do analizy wybrano proste zdanie o pozytywnym wydźwięku:
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|c|c|l|c|}
+\hline
+\textbf{Zdanie}                & \textit{Flakon} & \textit{dość} & \textit{ładny} & \textit{.} \\ \hline
+\textbf{Etykiety rzeczywiste}  & 0               & 0             & 1              & 0          \\ \hline
+\textbf{Etykiety przewidziane} & 0               & 0             & 1              & 0          \\ \hline
+\end{tabular}
+\caption{Zdanie wraz z etykietami wydźwięku. Dopasowanie: 100\%}
+\label{table:bf-sa}
+\end{table}
+Jak widać w tabeli 8.1, sieć prawidłowo skojarzyła słowo \textit{ładny} z wydźwiękiem pozytywnym, zatem zdanie jest prawidłowo sklasyfikowane. Tak samo dobrze dopasowane zostały etykiety do kolejnego prostego zdania (tabela 8.2), tym razem mającego wydźwięk neutralny.
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|c|c|l|c|l|}
+\hline
+\textbf{Zdanie}                & \textit{Opakowanie} & \textit{pasuje} & \textit{do} & \textit{zapachu} & . \\ \hline
+\textbf{Etykiety rzeczywiste}  & 0                   & 0               & 0           & 0                & 0 \\ \hline
+\textbf{Etykiety przewidziane} & 0                   & 0               & 0           & 0                & 0 \\ \hline
+\end{tabular}
+\caption{Zdanie wraz z etykietami wydźwięku. Dopasowanie: 100\% }
+\label{table:bf-sa}
+\end{table}
+Można więc sądzić, że sieć dobrze sobie radzi z prostymi zdaniami. Jednak przeanalizujmy przypadek z tabeli 8.3. Tutaj mamy do czynienia jednocześnie z błędem pierwszego i drugiego rodzaju, choć osteteczny negatywny wydźwięk zdania został wyznaczony prawidłowo.
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|c|c|l|l|}
+\hline
+\textbf{Zdanie}                & \textit{Dla} & \textit{mnie} & \textit{nieodpowiedni} & \textit{model} \\ \hline
+\textbf{Etykiety rzeczywiste}  & 0            & 0             & -1                     & 0              \\ \hline
+\textbf{Etykiety przewidziane} & 0            & 0             & 0                      & -1             \\ \hline
+\end{tabular}
+\caption{Zdanie wraz z etykietami wydźwięku. Dopasowanie: 50\%}
+\end{table}
+
+Dla bardziej skomplikowanych zdań sieć dokonuje większej liczby pomyłek, co widać w tabeli 8.4. Korzeniem drzewa w tym zdaniu jest słowo \textit{może}, zatem według etykiet rzeczywistych zdanie to ma wydźwięk neutralny, a sieć neuronowaw zaklasyfikowała je jako negatywne. Mimo błędnej klasyfikacji trafność dopasowania etykiet wynosi 75\%.
+\begin{table}[H]
+\centering
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{|l|c|c|l|c|l|l|l|l|l|l|l|l|}
+\hline
+\textbf{Zdanie}                & \textit{Minusem} & \textit{może} & \textit{być} & \textit{jego} & \textit{popularność} & , & \textit{chociaż} & \textit{mi} & \textit{to} & \textit{nie} & \textit{przeszkadza} & . \\ \hline
+\textbf{Etykiety rzeczywiste}  & -1               & 0             & -1           & 0             & 1                    & 0 & -1               & 0           & 0           & 0            & 0                    & 0 \\ \hline
+\textbf{Etykiety przewidziane} & -1               & -1            & -1           & 0             & 1                    & 0 & 0                & 0           & 0           & -1           & 0                    & 0 \\ \hline
+\end{tabular}%
+}
+\caption{Zdanie wraz z etykietami wydźwięku. Dopasowanie: 75\% }
+\label{table:bf-sa}
+\end{table}
+W tabeli 8.5 mamy kolejne zdanie, którego wydźwięk pozytywny został poprawnie wykryty. Sieć jednak nie zaklasyfikowała słowa \textit{fantastyczny} jako pozytywne. Powodem tego może być fakt, że słowo to nie występowało w danych uczących.
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|c|c|l|c|l|l|}
+\hline
+
+\textbf{Zdanie}                & \textit{Fantastyczny} & \textit{zapach} & \textit{,} & \textit{napełniający} & \textit{optymizmem} & . \\ \hline
+\textbf{Etykiety rzeczywiste}  & 1                     & 0               & 0          & 1                     & 1                   & 0 \\ \hline
+\textbf{Etykiety przewidziane} & 0                     & 0               & 0          & 1                     & 1                   & 0 \\ \hline
+\end{tabular}
+\caption{Zdanie wraz z etykietami wydźwięku. Dopasowanie: 83\%}
+\label{table:bf-sa}
+\end{table}
+
+Raport z rozdziału 7 pokazał, że sieć nie radzi sobie z dopasowaniem etykiet negatywnych. Często wydźwięk negatywny zdania jest prawidłowo rozpoznawany, jednak złe jest przyporządkowanie etykiet do konkretnych słów. Jak widać w tabeli 8.6, problem z dopasowaniem etykiet mógłby mieć również człowiek. O ile słowo \textit{mdli} można uznać za jednoznacznie negatywne, to już przyporządkowanie członowi \textit{i głowa boli} wydźwięku neutralnego jest dyskusyjne. 
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|c|c|l|l|l|l|l|l|}
+\hline
+\textbf{Zdanie}                & \textit{Mnie} & \textit{od} & \textit{niego} & \textit{mdli} & i  & \textit{głowa} & \textit{boli} & \textit{.} \\ \hline
+\textbf{Etykiety rzeczywiste}  & 0             & 0           & 0              & -1            & 0  & 0              & 0             & 0          \\ \hline
+\textbf{Etykiety przewidziane} & 0             & 0           & 0              & 0             & -1 & 0              & -1            & 0          \\ \hline
+\end{tabular}
+\caption{Zdanie wraz z etykietami wydźwięku. Dopasowanie: 62\%}
+\end{table}

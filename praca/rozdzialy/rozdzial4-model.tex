@@ -1,0 +1,47 @@
+\chapter{Wybrany model}
+\label{cha:model}
+
+\section{Rekurencyjna sieć neuronowa}
+\label{sec:rozklad}
+ 
+Zdania to sekwencje danych, zatem warto jest wybrać taki algorytm, który podczas procesu uczenia zapamiętuje poprzednie elementy w sekwencji. Dzięki temu możliwe będzie wytrenowanie sieci w taki sposób, by kojarzyła dany wynik nie tylko z konkretnym słowem, ale także z pozostałymi słowami w zdaniu i ich kolejnością. 
+
+Rekurencyjna sieć neuronowa (RNN) rozszerza połączoną sieć neuronową (wzór 4.1) tak, by aktualny stan  \textit{$h_t$}  był obliczany na podstawie akutalnego wejścia \textit{$x_t$} oraz poprzedniego stanu \textit{$h_{t-1}$}\cite{tai}. 
+\begin{equation} y = \sigma(Wx) \end{equation} 
+Najpopularniejszą postać RNN przedstawia wzór 4.2.
+\begin{equation} h_t = tanh(W_x x_t + W_h h_{t-1}) \end{equation} 
+
+Rozwiązanie to nie jest optymalne, gdyż w tego typu sieciach występuje problem znikającego lub ekspolodującego gradientu\cite{gradient}. Oznacza to, że podczas uczenia gradient może wykładniczo maleć bądź rosnąć. W pierwszym przypadku sieć coraz gorzej aktualizuje wagi (lub nawet przestaje je aktualizować), zatem nie jest w stanie wyuczyć się zależności występujących w dłuższych sekwecjach. Natomiast rezultatem zbyt dużego gradientu są znaczne zmiany w macierzach wag, co może skutkować tym, że model będzie przeskakiwał minima i nigdy ich nie osiągnie, a w skrajnych przypadkach wartość funkcji kosztu wyniesie NaN.
+
+\section{LSTM}
+\label{sec:lstm}
+
+Problemowi znikającego gradientu zapobiega sieć LSTM\cite{tai} (\textit{ang. Long Short-Term Memory}), która wprowadza strukturę \textit{$c_t$} zwaną komórką pamięci, mającą możliwość przechowania informacji na przestrzeni czasu. Przepływ informacji z poprzednich stanów kontroluje mechanizm bramek: wejściowej \textit{$i_t$}, zapominającej \textit{$f_t$} oraz wyjściowej \textit{$o_t$}. Wzory 4.3 - 4.8 przedstawiają wariant sieci LSTM użyty w tej pracy, gdzie \textit{$W_x$} i \textit{$W_h$} to macierze wag.
+
+\begin{equation} i_t = \sigma(W_{xi}x_t + W_{hi}h_{t-1} + b_i) \end{equation}
+\begin{equation} f_t = \sigma(W_{xf}x_t + W_{hf}h_{t-1} + b_f) \end{equation}
+\begin{equation} c_t = c_0 * f_t + i_t * tanh(W_{ci}x_t + W_{hc}h_{t-1} + b_c)  \end{equation}
+\begin{equation} o_t = \sigma(W_{xo}x_t + W_{ho}h_{t-1} + b_o) \end{equation}
+\begin{equation} c_0 = c_t \end{equation}
+\begin{equation} h_t = o_t * tanh(c_0) \end{equation}
+
+\section{Struktura drzewa w LSTM}
+\label{sec:tree}
+
+Ograniczeniem typowej architektury LSTM jest to, że pozwala ona tylko na sekwencyjną propagację informacji. Aby móc przetworzyć dane, które są przedstawione w postaci drzew zależności, konieczne jest wprowadzenie rozszerzonej sieci zwanej Tree-LSTM\cite{tai}. Od zwykłej sieci LSTM różni się tym, że aktualizacje wektorów bramek i komórki pamięci zależą nie od jednego stanu poprzedniego, ale od stanów wszystkich dzieci danego węzła.
+
+Niniejsza praca opiera się na modelu zaproponowanym przez Michała Lwa i Piotra Pęzika\cite{treelstm}, który nosi nazwę \textit{Sequential Child-Combination Tree-LSTM}. Ma on taką samą postać jak model LSTM ze wzorów 4.3 - 4.8, z tą jednak różnicą, że aktualny stan \textit{$h_t$}  węzła jest wyliczany z kombinacji \textit{k} stanów jego dzieci. Zatem wartość komórki pamięci \textit{$c_{ik}$} jest wyznaczana korzystając ze stanu ukrytego \textit{$h_{ck}$} poprzedniego dziecka w sekwencji (dzieci są ułożone w kolejności występowania w zdaniu), co przedstawiają wzory 4.9 - 4.13. 
+
+\begin{equation} c_{i1} = c_0 * f_{i1} + i_{i1} * tanh(W_{ci}x_t + W_{hc}h_{c1} + b_c)  \end{equation}
+\begin{equation} c_{i2} = c_{i1} * f_{i2} + i_{i2} * tanh(W_{ci}h_{i1} + W_{hc}h_{c2} + b_c)  \end{equation}
+\centerline {...}
+\begin{equation} c_{in} = c_{in} * f_{in} + i_{in} * tanh(W_{ci}h_{in-1} + W_{hc}h_{cn} + b_c)  \end{equation}
+\begin{equation} c_t = c_{in}  \end{equation}
+\begin{equation} h_t = h_{in}  \end{equation}
+
+\section{Wektorowa reprezentacja słów}
+\label{sec:vector}
+
+Do wektorowej reprezentacji słów w przestrzeni (\textit{ang. word embedding)} służy model \textit{Word2vec}. Przyporządkowuje on podobne słowa do punktów położonych blisko siebie w przestrzeni wektorowej\cite{word2vec}. 
+
+Mapowanie odbywa się przy pomocy macierzy \textit{J}  o losowych wartościach i wymiarach  \textit{MxN}, gdzie \textit{M} to rozmiar słownika zawierającego wszystkie słowa z danych uczących, natomiast \textit{N} to przyjęty rozmiar macierzy (zazwyczaj przyjmuje się którąś z potęg liczby 2).   
